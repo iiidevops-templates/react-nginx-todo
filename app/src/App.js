@@ -1,49 +1,122 @@
-import { Component } from 'react';
-//import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
 
-class App extends Component {
-  constructor(){
-    super();
-    
-    this.state={
-      monsters:[],
+import { SaveTaskInLocalStorage, getTasks, deleteTaskInLocalStorage } from './Storage';
+
+import { Header } from './Components/Header/index';
+import { Footer } from './Components/Footer/index';
+import { TaskCounter } from './Components/TaskCounter';
+import { Button } from './Components/Button';
+import { Table } from './Components/Table/index';
+import { Modal } from './Components/Modal/index';
+import { Alert } from './Components/Alert/index';
+
+import './css/index.css';
+
+function App() {
+
+  const [tasks, setTasks] = useState([]);
+  const [taskCounter, setTaskCounter] = useState([])
+  const [statusMessage, setStatusMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("")
+
+  function loadTasks() {
+    const allTasks = getTasks();
+
+    if (allTasks.length === 0) {
+      setStatusMessage("Você não possui tarefas.")
+    } else {
+      setStatusMessage("")
     }
+    setTaskCounter(allTasks.length);
+    setTasks(allTasks);
   }
-  componentDidMount(){
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => response.json())
-      .then((users) => this.setState(() => {
-        return {monsters:users}
-      },()=>{
-        console.log(this.state)
-      }));
+
+  function createTask(description, date) {
+    if (!description || !date) {
+      setShowAlert(true);
+      setMessageAlert("Para continuar, preencha todos os campos!");
+      return;
+    }
+    SaveTaskInLocalStorage(description, date, tasks);
+    loadTasks()
+    setShowModal(false);
+    setMessageAlert("")
   }
-  render(){
-    console.log(process.env.REACT_APP_APPURL)
-    return (
-      <div className="App">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="xxxxx"
-          onChange={(event) => {
-            console.log(event.target.value);
-            const filterMonsters = this.state.monsters.filter((monster) => {
-              return monster.name.includes(event.target.value);
-            });
-          }}
-        />
-        {this.state.monsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
+
+  useEffect(() => {
+    loadTasks()
+  }, []);
+
+  useEffect(() => {
+    if (showAlert) {
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000)
+    }
+  }, [showAlert]);
+
+  function closeModal() {
+    setShowModal(false);
+  }
+
+  function removeTask(id) {
+    deleteTaskInLocalStorage(id, tasks);
+    loadTasks();
+  }
+
+  return (
+    <>
+      <div className="container">
+        <Header />
+
+
+        <main className="content">
+          <div className="main-header">
+          {console.log(process.env.REACT_APP_APPURL)}
+            <Button
+              onClick={() => setShowModal(true)}
+              className="btn-new-task"
+              title="Nova Tarefa"
+            />
+
+            <TaskCounter
+              tasks={taskCounter}
+            />
+          </div>
+
+          <Table
+            tasks={tasks}
+            removeTask={removeTask}
+          />
+
+          <h3 className="message-status">{statusMessage}</h3>
+        </main>
+
+
+        <Footer />
       </div>
-    );
-  }
+
+      {
+        showModal && (
+          <Modal
+            closeModal={closeModal}
+            createTask={createTask}
+          />
+        )
+      }
+
+      {
+        showAlert && (
+          <Alert
+            message={messageAlert}
+            closeAlert={setShowAlert}
+          />
+        )
+      }
+    </>
+  );
 }
 
 export default App;
