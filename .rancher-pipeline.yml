@@ -73,7 +73,6 @@ stages:
     branch:
       include:
       - master
-      - develop
 - name: Build--Build and push docker image
   iiidevops: deployed-environments
   steps:
@@ -93,7 +92,6 @@ stages:
     branch:
       include:
       - master
-      - develop
 - name: Build--Scan docker image
   iiidevops: deployed-environments
   steps:
@@ -109,7 +107,6 @@ stages:
     branch:
       include:
       - master
-      - develop
 - name: Deploy--Web
   iiidevops: deployed-environments
   steps:
@@ -139,7 +136,6 @@ stages:
     branch:
       include:
       - master
-      - develop
 - name: Deploy--Wait Web deployment
   iiidevops: deployed-environments
   steps:
@@ -162,7 +158,6 @@ stages:
     branch:
       include:
       - master
-      - develop
 - name: Test--Anchore SBOM
   iiidevops: anchore
   steps:
@@ -182,7 +177,7 @@ stages:
   when:
     branch:
       include:
-      - skip
+      - master
 - name: Test--ZAP
   iiidevops: zap
   steps:
