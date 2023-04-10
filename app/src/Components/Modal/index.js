@@ -14,16 +14,16 @@ export function Modal({ closeModal, createTask }) {
     return (
         <div className="modal-background">
             <article className="modal-container">
-                <h2 className="title-modal">Criar nova tarefa</h2>
+                <h2 className="title-modal">Add New Task</h2>
 
                 <form>
                     <FormGroup
                         type="text"
                         id="description"
-                        placeholder="Descrição"
+                        placeholder="Description"
                         value={description}
                         onChange={e => setDescription(e.target.value)}
-                        label="Descrição da Tarefa"
+                        label="Task Description"
                     />
 
                     <FormGroup
@@ -31,20 +31,20 @@ export function Modal({ closeModal, createTask }) {
                         id="date"
                         value={date}
                         onChange={e => setDate(e.target.value)}
-                        label="Data de Início"
+                        label="Start Date"
                     />
 
                     <div className="buttons-modal">
                         <Button
                             onClick={() => closeModal()}
                             className="btn-cancel"
-                            title="Cancelar"
+                            title="Cancel"
                         />
 
                         <Button
                             onClick={() => createTask(description, date)}
                             className="btn-save"
-                            title="Salvar"
+                            title="Save"
                         />
                     </div>
 

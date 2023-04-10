@@ -6,9 +6,9 @@ export function Table({ tasks, removeTask }) {
         <table>
             <thead>
                 <tr>
-                    <th>Descrição</th>
-                    <th>Data de Início</th>
-                    <th>Ações</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

@@ -25,7 +25,7 @@ function App() {
     const allTasks = getTasks();
 
     if (allTasks.length === 0) {
-      setStatusMessage("Você não possui tarefas.")
+      setStatusMessage("No tasks at all.")
     } else {
       setStatusMessage("")
     }
@@ -78,7 +78,7 @@ function App() {
             <Button
               onClick={() => setShowModal(true)}
               className="btn-new-task"
-              title="Nova Tarefa"
+              title="+ New Task"
             />
 
             <TaskCounter
