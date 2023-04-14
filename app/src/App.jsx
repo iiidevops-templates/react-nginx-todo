@@ -74,7 +74,7 @@ function App() {
 
         <main className="content">
           <div className="main-header">
-          {console.log(process.env.REACT_APP_APPURL)}
+          {console.log(import.meta.env.VITE_REACT_APP_APPURL)}
             <Button
               onClick={() => setShowModal(true)}
               className="btn-new-task"
