@@ -9,7 +9,7 @@ import { Button } from './Components/Button';
 import { Table } from './Components/Table/index';
 import { Modal } from './Components/Modal/index';
 import { Alert } from './Components/Alert/index';
-
+import './css/reset.css'
 import './css/index.css';
 
 function App() {
